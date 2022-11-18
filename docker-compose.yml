@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  db:
+    build: mysqldockerfile/.
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: mysqldb
+      MYSQL_ROOT_PASSWORD: master
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      - mysqlcomposenetwork
+    volumes:
+      - ./data:/data
+    ports:
+      - 3306:3306
+  adminer:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    networks:
+      - mysqlcomposenetwork
+    depends_on:
+      - db
+
+networks: 
+  mysqlcomposenetwork:
+    driver: bridge
