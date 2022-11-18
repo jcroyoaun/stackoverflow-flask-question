@@ -11,9 +11,10 @@ services:
     networks:
       - mysqlcomposenetwork
     volumes:
-      - ./data:/data
+      - ./data:/var/lib/mysql
     ports:
       - 3306:3306
+    # platform: "linux/amd64" #<-- uncomment this if you're on an M1 arm64 based chip 
   adminer:
     build: .
     restart: unless-stopped
@@ -21,7 +22,7 @@ services:
       - 8080:8080
     networks:
       - mysqlcomposenetwork
-    depends_on:
+    depends_on: 
       - db
 
 networks: 
